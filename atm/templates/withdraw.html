@@ -1,0 +1,76 @@
+{% include 'base.html' %}
+
+{% block extra_head %}
+<style type="text/css">
+
+  label {
+    margin: 5px;
+  }
+  h3{
+    color:red;
+  }
+</style>
+
+{% endblock extra_head %}
+{% block content %}
+
+<div class="note-container" style="width:400px; margin: 0 auto; margin-bottom:80px;">
+<div class="card">
+<div class="card-body">
+<h2 class="card-title">Enter the Amount to be Withdrawn</h2>
+<form id="form">
+  {% csrf_token %}
+   <input type="hidden" id="username" name="username" value={{user.username}}>
+   <label for="amount">Amount</label><br>
+  <input type="text" id="amount" name="amount"><br>
+  <button type="submit">Withdraw</button>
+</form>
+<br>
+<br>
+<h3 id="message"></h3>
+<h3 id='denom'></h3>
+<h3 id="balance"></h3>
+</div>
+</div>
+</div>
+
+
+
+{% endblock %}
+
+{% block extra_scripts %}
+<script type="text/javascript">
+$("#form").submit(function(e) {
+    e.preventDefault();
+    $.ajax({
+      type: "POST",
+      url: "http://127.0.0.1:8000/api_withdraw/",
+      dataType: "json",
+      data: $("form").serialize(),
+      success: function(result){
+            console.log(result);
+            if(result.status==204){
+              document.getElementById('message').innerHTML = result.message;
+              document.getElementById('balance').innerHTML = 'Your updated balance is: '+result.current_balance;
+              document.getElementById('denom').innerHTML = 'Received denominations are- 2000:'+result.transaction['2000']+' 500:'+result.transaction['500']+' 200:'+result.transaction['200']+' 100:'+result.transaction['100'];
+              $("#balance").show();
+              $("#denom").show();
+              $('#amount').val(0);
+            }
+            else{
+              document.getElementById('message').innerHTML = result.message;
+              $("#balance").hide();
+              $("#denom").hide();
+            }
+        },
+      error: function(result){
+            console.log(result);
+        }
+
+                 });
+    });
+
+
+</script>
+
+{% endblock extra_scripts %}

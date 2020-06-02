@@ -1,0 +1,68 @@
+{% include 'base.html' %}
+
+{% block extra_head %}
+<style type="text/css">
+
+  label {
+    margin: 5px;
+  }
+  h3{
+    color:red;
+  }
+</style>
+
+{% endblock extra_head %}
+{% block content %}
+
+    <div class="note-container" style="width:400px; margin: 0 auto; margin-bottom:80px;">
+        <div class="card">
+<div class="card-body">
+<h2 class="card-title">Enter ATM Card number and Pin</h2>
+<form id="form">
+  {% csrf_token %}
+  <label for="atm_number">ATM Card Number:</label><br>
+  <input type="text" id="atm_number" name="atm_number"><br>
+  <label for="atm_pin">ATM Card Pin</label><br>
+  <input type="text" id="atm_pin" name="atm_pin">
+  <button id="validate" type="submit">Start a Transaction</button>
+</form>
+<br>
+<br>
+<h3 id="message"></h3>
+</div>
+</div>
+</div>
+
+
+
+{% endblock %}
+
+{% block extra_scripts %}
+<script type="text/javascript">
+$("#form").submit(function(e) {
+    e.preventDefault();
+    $.ajax({
+      type: "POST",
+      url: "http://127.0.0.1:8000/atm_validate/",
+      dataType: "json",
+      data: $("form").serialize(),
+      success: function(result){
+            console.log(result);
+            if(result.status==204){
+              window.location.href = "http://127.0.0.1:8000/transaction/";
+            }
+            else{
+              document.getElementById('message').innerHTML = result.message;
+            }
+        },
+      error: function(result){
+            console.log(result);
+        }
+
+                 });
+    });
+
+
+</script>
+
+{% endblock extra_scripts %}

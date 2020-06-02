@@ -1,0 +1,81 @@
+{% include 'base.html' %}
+
+{% block extra_head %}
+<style type="text/css">
+
+  label {
+    margin: 5px;
+  }
+  h3{
+    color:red;
+  }
+</style>
+
+{% endblock extra_head %}
+{% block content %}
+
+    <div class="note-container" style="width:400px; margin: 0 auto; margin-bottom:80px;">
+        <div class="card">
+<div class="card-body">
+<h2 class="card-title">Enter Denominations of the Deposit</h2>
+<form id="form">
+  {% csrf_token %}
+   <input type="hidden" id="username" name="username" value={{user.username}}>
+  <label for="no_2000">2000:</label>
+  <input type="number" id="no_2000" name="no_2000" step="1" value=0><br>
+  <label for="no_500">500 :</label>
+  <input type="number" id="no_500" name="no_500" step="1" value=0><br>
+  <label for="no_200">200 :</label>
+  <input type="number" id="no_200" name="no_200" step="1" value=0><br>
+  <label for="no_100">100  :</label>
+  <input type="number" id="no_100" name="no_100" step="1" value=0><br>
+  <button id="validate" type="submit">Deposit</button>
+</form>
+<br>
+<br>
+<h3 id="message"></h3>
+<h3 id="balance"></h3>
+</div>
+</div>
+</div>
+
+
+
+{% endblock %}
+
+{% block extra_scripts %}
+<script type="text/javascript">
+$("#form").submit(function(e) {
+    e.preventDefault();
+    $.ajax({
+      type: "POST",
+      url: "http://127.0.0.1:8000/api_deposit/",
+      dataType: "json",
+      data: $("form").serialize(),
+      success: function(result){
+            console.log(result);
+            if(result.status==204){
+              document.getElementById('message').innerHTML = result.message;
+              document.getElementById('balance').innerHTML = 'Your updated balance is: '+result.current_balance;
+              $("#balance").show();
+              $('#no_2000').val(0);
+              $('#no_500').val(0);
+              $('#no_200').val(0);
+              $('#no_100').val(0);
+            }
+            else{
+              document.getElementById('message').innerHTML = result.message;
+              $("#balance").hide();
+            }
+        },
+      error: function(result){
+            console.log(result);
+        }
+
+                 });
+    });
+
+
+</script>
+
+{% endblock extra_scripts %}
