@@ -17,7 +17,7 @@
 <h2 class="card-title">User Details Form</h2>
 <form method="post">
   {% csrf_token %}
-  {% for field in form %}
+  {% for field in profile_form %}
     <p>
       {{ field.label_tag }}<br>
       {{ field }}
