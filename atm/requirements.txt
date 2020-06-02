@@ -8,7 +8,7 @@ autopep8==1.4.4
 backcall==0.1.0
 bcrypt==3.1.7
 beautifulsoup4==4.7.1
-bleach==3.1.0
+bleach==3.1.4
 bottle==0.12.17
 bottle-websocket==0.2.9
 Brlapi==0.6.6
