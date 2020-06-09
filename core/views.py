@@ -169,6 +169,8 @@ def api_withdraw(request):
 			if(amount % 100 != 0 or amount==0): 
 				return Response({'status':status.HTTP_404_NOT_FOUND, 'message':'Please enter the amount in multiples of 100'})
 			current_amount = profile[0].amount
+			if(current_amount - amount <= 0):
+				return Response({'status':status.HTTP_404_NOT_FOUND, 'message':'Not enough money in your account'})
 			obj = Atm.objects.filter(id=1)
 			existing_denom = {}
 			existing_denom[2000] = obj[0].notes_2000
