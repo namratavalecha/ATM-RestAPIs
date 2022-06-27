@@ -127,7 +127,7 @@ PyYAML==3.12
 pyzmq==18.1.1
 qtconsole==4.6.0
 razorpay==1.2.0
-reportlab==3.4.0
+reportlab==3.5.55
 requests==2.22.0
 requests-oauthlib==1.2.0
 requests-unixsocket==0.1.5
