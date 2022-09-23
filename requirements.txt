@@ -93,7 +93,7 @@ pipenv==2018.11.26
 prettytable==0.7.2
 prometheus-client==0.7.1
 prompt-toolkit==3.0.3
-protobuf==3.0.0
+protobuf==3.18.3
 psycopg2==2.8.4
 ptyprocess==0.6.0
 py2exe==0.9.2.2
