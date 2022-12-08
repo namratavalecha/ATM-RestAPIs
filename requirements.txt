@@ -12,7 +12,7 @@ bleach==3.1.0
 bottle==0.12.17
 bottle-websocket==0.2.9
 Brlapi==0.6.6
-certifi==2019.11.28
+certifi==2022.12.7
 cffi==1.13.2
 chardet==3.0.4
 Click==7.0
